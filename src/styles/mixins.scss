@@ -1,0 +1,5 @@
+@import 'variables';
+
+@function color($color: initial, $alphaValue: 1) {
+  @return rgba(map_get($colors, $color), $alphaValue);
+}

@@ -1,0 +1,29 @@
+@import 'mixins';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none; // remove this later. TODO: проверить корректность
+}
+
+html, body, input, textarea, button {
+  font-family: 'Onest', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  background-color: color('background', 0.5);
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
