@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { distinctUntilChanged, filter, map, Observable, shareReplay, switchMap } from 'rxjs';
 import { Document } from '../../interfaces/document';
 import { ApiService } from '../../../../services/api.service';
 import { Page } from '../../interfaces/page';
@@ -11,7 +11,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
+  providers: [DocumentViewerService]
 })
 export class ViewerComponent implements AfterViewInit, OnDestroy {
   @HostBinding('style.--zoom')
@@ -45,6 +46,7 @@ export class ViewerComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private apiService: ApiService,
     private documentViewerService: DocumentViewerService
   ) {
@@ -54,6 +56,12 @@ export class ViewerComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.document$.pipe(
+      filter(document => document === undefined || document === null),
+      switchMap(() => this.router.navigate(['/', 'document'])),
+      untilDestroyed(this)
+    ).subscribe()
+
     this.zoom$.pipe(
       untilDestroyed(this)
     ).subscribe(zoom => {

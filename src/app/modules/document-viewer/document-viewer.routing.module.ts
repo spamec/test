@@ -2,15 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewerComponent } from "./components/viewer/viewer.component";
 import { DocumentNotFoundComponent } from './components/document-not-found/document-not-found.component';
+import { IdValidationGuard } from './guards/validations.service';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DocumentNotFoundComponent
-  }, {
     path: ':id',
-    component: ViewerComponent
-  }
+    component: ViewerComponent,
+    canActivate: [IdValidationGuard]
+  },
+  {
+    path: '**',
+    component: DocumentNotFoundComponent
+  },
 ];
 
 @NgModule({
