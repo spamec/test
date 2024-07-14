@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { environmemt } from '../../environments/environment';
 
 @Injectable({
@@ -8,9 +8,19 @@ import { environmemt } from '../../environments/environment';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getUsers(): Observable<any> {
-    return this.http.get(environmemt.apiUrl + '/');
+  getDocument(id: string): Observable<any> {
+    console.log(id);
+    return !!id ? this.http.get(`${environmemt.apiUrl}/documents/${id}`).pipe(
+      catchError(error => {
+        if (error?.status === 404) {
+          return of(null)
+        } else {
+          throw Error(error);
+        }
+      })
+    ) : of(null);
   }
 }

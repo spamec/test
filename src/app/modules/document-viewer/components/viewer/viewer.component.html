@@ -1,1 +1,17 @@
-<p>viewer works!</p>
+<ng-container *ngIf="pages$ | async as pages">
+  <div cdkDragBoundary=".document-pages"
+       cdkDrag
+       style="width: auto; height: auto;"
+       class="wrapper"
+       #wrapper>
+    <div class="document-pages">
+      <div *ngFor="let page of pages"
+           class="document-pages_page">
+        <img [alt]="'Page #' + page.number"
+             [src]="page.imageUrl" />
+        <div class="document-pages_page_number">{{page.number}}</div>
+      </div>
+    </div>
+  </div>
+  <app-controls></app-controls>
+</ng-container>

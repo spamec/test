@@ -1,0 +1,41 @@
+@import "mixins";
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-between-pages 0;
+  position: relative;
+
+  .wrapper {
+    transition: all 0.1s linear;
+
+    .document-pages {
+      max-height: fit-content;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      gap: $space-between-pages;
+      position: relative;
+      transform: scale(var(--zoom));
+      transform-origin: 50% 0;
+      transition: transform 0.2s ease;
+
+      &_page {
+        position: relative;
+
+        &_number {
+          position: absolute;
+          font-size: 14px;
+          right: $padding;
+          bottom: $padding;
+          color: color('gray');
+        }
+      }
+    }
+  }
+
+}

@@ -29,6 +29,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions" : {
+              "includePaths" : [
+                "src/styles"
+              ]
+            },
             "styles": [
               "src/styles/main.scss"
             ],
@@ -62,7 +67,16 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "mock/pages",
+                  "output": "pages"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

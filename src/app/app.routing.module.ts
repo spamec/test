@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'document-viewer',
+    path: 'document',
     loadChildren: () => import('./modules/document-viewer/document-viewer.module').then(module => module.DocumentViewerModule)
   }
 ];

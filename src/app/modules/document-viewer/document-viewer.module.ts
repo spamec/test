@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ViewerComponent } from './components/viewer/viewer.component';
 import { DocumentViewerRoutingModule } from "./document-viewer.routing.module";
 import { DocumentNotFoundComponent } from './components/document-not-found/document-not-found.component';
+import { ControlsComponent } from './components/controls/controls.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
   declarations: [
     ViewerComponent,
-    DocumentNotFoundComponent
+    DocumentNotFoundComponent,
+    ControlsComponent
   ],
   imports: [
     CommonModule,
-    DocumentViewerRoutingModule
+    DocumentViewerRoutingModule,
+    NgOptimizedImage,
+    DragDropModule
   ]
 })
 export class DocumentViewerModule {
