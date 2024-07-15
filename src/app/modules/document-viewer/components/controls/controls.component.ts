@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DocumentViewerService } from '../../services/document-viewer.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { DocumentViewerService } from '../../services/document-viewer.service';
   styleUrls: ['./controls.component.scss']
 })
 export class ControlsComponent {
+  @Output() onSaveDocument: EventEmitter<void> = new EventEmitter();
+
   private delta = 1.1;
   zoomIn() {
     this.documentViewerService.zoom = this.documentViewerService.zoom * this.delta;
@@ -18,4 +20,5 @@ export class ControlsComponent {
 
   constructor(private documentViewerService: DocumentViewerService) {
   }
+
 }

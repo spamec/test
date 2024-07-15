@@ -1,13 +1,20 @@
+@import "mixins";
+@import "variables";
+
 :host {
   display: flex;
-  gap: 2em;
+  gap: $card-padding;
   position: fixed;
-  right: 10%;
-  top: 10%;
+  right: 50%;
+  bottom: 2%;
   z-index: 1;
 
-  button {
-    font-size: 1em;
-    padding: 1em;
+  span {
+    padding: $card-padding;
+    background-color: color('gray', 0.1);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    cursor: pointer;
   }
 }

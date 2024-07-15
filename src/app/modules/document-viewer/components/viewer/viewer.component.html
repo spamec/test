@@ -1,17 +1,32 @@
 <ng-container *ngIf="pages$ | async as pages">
-  <div cdkDragBoundary=".document-pages"
-       cdkDrag
-       style="width: auto; height: auto;"
-       class="wrapper"
-       #wrapper>
-    <div class="document-pages">
+  <div
+    cdkDrag
+    [cdkDragDisabled]="someAnnotationInEditSubject | async"
+    style="width: auto; height: auto;"
+    class="wrapper"
+    #wrapper>
+    <div cdkDragHandle
+         class="document-pages"
+         (dblclick)="onClick($event)">
       <div *ngFor="let page of pages"
            class="document-pages_page">
         <img [alt]="'Page #' + page.number"
              [src]="page.imageUrl" />
         <div class="document-pages_page_number">{{page.number}}</div>
       </div>
+      <ng-container *ngFor="let annotation of (annotations$ | async); index as i; trackBy: trackById">
+        <app-annotation cdkDrag (cdkDragEnded)="dragEnd($event, i)"
+                        [left]="annotation.position.x"
+                        [top]="annotation.position.y"
+                        [text]="annotation.text"
+                        [image]="annotation.img"
+                        (onEditChange)="someAnnotationInEditSubject.next($event)"
+                        (onUpdateText)="updateText($event, annotation, i)"
+                        (onUpdateImage)="updateImage($event, annotation, i)"
+                        (close)="removeAnnotation(i)"
+        ></app-annotation>
+      </ng-container>
     </div>
   </div>
-  <app-controls></app-controls>
+  <app-controls (onSaveDocument)="saveDocument()"></app-controls>
 </ng-container>

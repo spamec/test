@@ -22,16 +22,17 @@
       position: relative;
       transform: scale(var(--zoom));
       transform-origin: 50% 0;
-      transition: transform 0.2s ease;
+      transition: transform 0.5s ease;
 
       &_page {
         position: relative;
+        pointer-events: none;
 
         &_number {
           position: absolute;
           font-size: 14px;
-          right: $padding;
-          bottom: $padding;
+          right: $page-padding;
+          bottom: $page-padding;
           color: color('gray');
         }
       }

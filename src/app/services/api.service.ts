@@ -12,7 +12,6 @@ export class ApiService {
   }
 
   getDocument(id: string): Observable<any> {
-    console.log(id);
     return !!id ? this.http.get(`${environmemt.apiUrl}/documents/${id}`).pipe(
       catchError(error => {
         if (error?.status === 404) {
