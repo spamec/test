@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, take } from 'rxjs';
 import { Document } from '../../interfaces/document';
@@ -18,56 +18,30 @@ import * as uuid from 'uuid';
   providers: [DocumentViewerService]
 })
 export class ViewerComponent implements AfterViewInit, OnDestroy {
-  // @ts-ignore
-  @HostListener("dblclick", ['$event']) onClick($event: MouseEvent){
-    $event.stopPropagation();
-    const element: HTMLElement = $event.target as HTMLElement;
-    if (element.classList.contains('document-pages')) {
-      this.documentViewerService.changeAnnotations({
-        id: uuid.v4(),
-        position:{
-          x: $event.offsetX,
-          y: $event.offsetY
-        }
-      })
-    }
-  }
-
-
   @HostBinding('style.--zoom')
   zoom: number = this.documentViewerService.zoom;
-
   // @ts-ignore
   @ViewChild('wrapper') wrapper: ElementRef<HTMLDivElement>;
-
   // @ts-ignore
   initialHeight: number;
-
   documentId$: Observable<string> = this.route.params.pipe(
     map(params => String(params['id'])),
     distinctUntilChanged(),
     shareReplay(1)
   );
-
   document$: Observable<Document> = this.documentId$.pipe(
     switchMap(id => this.apiService.getDocument(id)),
     distinctUntilChanged(),
     shareReplay(1)
   )
-
   pages$: Observable<Page[]> = this.document$.pipe(
     map(document => document?.pages?.sort((a, b) => a.number >= b.number ? 1 : -1)),
     distinctUntilChanged(),
     shareReplay(1)
   )
-
   zoom$: Observable<number> = this.documentViewerService.zoom$;
-
   annotations$: Observable<Annotation[]> = this.documentViewerService.annotations$;
   someAnnotationInEditSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  trackById(_: any, annotation: Annotation){
-    return annotation.id;
-  }
 
   constructor(
     private route: ActivatedRoute,
@@ -75,6 +49,25 @@ export class ViewerComponent implements AfterViewInit, OnDestroy {
     private apiService: ApiService,
     private documentViewerService: DocumentViewerService
   ) {
+  }
+
+  // @ts-ignore
+  @HostListener("dblclick", ['$event']) onClick($event: MouseEvent) {
+    $event.stopPropagation();
+    const element: HTMLElement = $event.target as HTMLElement;
+    if (element.classList.contains('document-pages')) {
+      this.documentViewerService.changeAnnotations({
+        id: uuid.v4(),
+        position: {
+          x: $event.offsetX,
+          y: $event.offsetY
+        }
+      })
+    }
+  }
+
+  trackById(_: any, annotation: Annotation) {
+    return annotation.id;
   }
 
   ngOnDestroy(): void {
@@ -116,7 +109,7 @@ export class ViewerComponent implements AfterViewInit, OnDestroy {
   }
 
   updateImage(img: string | ArrayBuffer | null, annotation: Annotation, index: number) {
-    if(!!img){
+    if (!!img) {
       this.documentViewerService.changeAnnotations({...annotation, img}, index)
     }
   }
@@ -124,9 +117,10 @@ export class ViewerComponent implements AfterViewInit, OnDestroy {
   saveDocument() {
     combineLatest([this.document$, this.annotations$]).pipe(
       take(1),
-      map(([document, annotations])=>{
+      map(([document, annotations]) => {
         console.log({...document, annotations} as Document)
       })
     ).subscribe()
   }
+
 }

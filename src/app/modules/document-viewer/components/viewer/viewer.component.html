@@ -20,6 +20,7 @@
                         [top]="annotation.position.y"
                         [text]="annotation.text"
                         [image]="annotation.img"
+                        [id]="annotation.id"
                         (onEditChange)="someAnnotationInEditSubject.next($event)"
                         (onUpdateText)="updateText($event, annotation, i)"
                         (onUpdateImage)="updateImage($event, annotation, i)"

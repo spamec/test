@@ -1,5 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewContainerRef } from '@angular/core';
-import { EditUpdate } from '../../interfaces/edit-update';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 const DIV_PLACEHOLDER = 'Double click to edit. Ctrl+Enter to save.';
 
@@ -28,9 +27,8 @@ export class AnnotationComponent implements OnInit{
   @Input()
   image: any;
 
-  constructor(private viewContainerRef: ViewContainerRef) {
-  }
-
+  @Input()
+  id: string;
   ngOnInit(): void {
     this.text = this.text ?? DIV_PLACEHOLDER;
   }
